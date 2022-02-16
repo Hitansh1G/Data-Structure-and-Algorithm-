@@ -1,5 +1,5 @@
 temple<typename T>
-clss BinaryTreeNode{
+class BinaryTreeNode{
     public:
     T data;
     BinaryTreeNode*left;
