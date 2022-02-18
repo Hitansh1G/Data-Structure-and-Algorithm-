@@ -44,16 +44,3 @@ void printLevelWise(BinaryTreeNode<int> *root) {
     delete inputQ;
     delete outputQ;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
