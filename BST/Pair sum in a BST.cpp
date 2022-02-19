@@ -17,34 +17,98 @@
 	};
 	
 ***********************************************************/
-#include <bits/stdc++.h>
-int k=0;
-
-void convert (BinaryTreeNode<int> *root,int *arr){
-    if(root==NULL)
-        return;
-    arr[k++]=root->data;  
-    convert(root->left,arr);
-    convert(root->right,arr);
+#include <stack>
+int countnodes(BinaryTreeNode<int> *root)
+{
+    if(root==NULL) return 0;
+    
+    return 1+ countnodes(root->left) +countnodes (root->right);
 }
+void printNodesSumToS(BinaryTreeNode<int> *root, int s) {
 
-void printNodesSumToS(BinaryTreeNode<int> *root, int sum) {
-    // Write your code here
-    int arr[1001];
-    convert(root,arr);
-    sort(arr,arr+k);
-    int i=0;
-    int j=k-1;
-    while(i<j){
-        if(arr[i]+arr[j]==sum){
-            cout<< arr[i] <<" "<<arr[j]<<endl;
-            i++;
-            j--;
+    int totalnodes=countnodes(root);
+    int count=0;
+    
+    stack<BinaryTreeNode<int>* > inorder;
+    stack<BinaryTreeNode<int>* > revinorder;
+    
+    BinaryTreeNode<int> *temp=root;
+    
+    while(temp)
+    {
+        inorder.push(temp);
+       
+        temp=temp->left;
+    }
+    temp=root;
+    while(temp)
+    {
+        revinorder.push(temp);
+       
+        temp=temp->right;
+    }
+    
+    while (count<totalnodes -1)
+    {
+        BinaryTreeNode<int> *top1=inorder.top();
+        BinaryTreeNode<int> *top2=revinorder.top();
+          if(top1->data + top2->data == s)
+          {cout<< top1->data <<" "<<top2->data<<endl;
+           
+           BinaryTreeNode<int> *top=top1;
+           inorder.pop();
+           count++;
+            if(top->right)
+            {
+                top=top->right;
+                while(top)
+                {  inorder.push(top);
+                 top=top->left;
+                }
+            }
+           top=top2;
+           revinorder.pop();
+           count++;
+            if(top->left)
+            {
+                top=top->left;
+                while(top)
+                {  revinorder.push(top);
+                 top=top->right;
+                }
+            }
+           
+          }
+        else if(top1->data + top2->data > s)
+        {
+             BinaryTreeNode<int> *top=top2;
+           revinorder.pop();
+           count++;
+            if(top->left)
+            {
+                top=top->left;
+                while(top)
+                {  revinorder.push(top);
+                 top=top->right;
+                }
+            }
         }
-        else if(arr[i]+arr[j] > sum){
-            j--;
+        else
+        {
+             BinaryTreeNode<int> *top=top1;
+           inorder.pop();
+           count++;
+            if(top->right)
+            {
+                top=top->right;
+                while(top)
+                {  inorder.push(top);
+                 top=top->left;
+                }
+            }
         }
-        else if(arr[i]+arr[j] < sum)
-        i++;
+        
     }
 }
+
+
