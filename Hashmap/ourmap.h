@@ -73,9 +73,37 @@ class ourmap{
     }
 
     void getValue(string key){
-
+        int bucketIndex = getbucketIndex(string key);
+        MapNode<V>*head=buckets[bucketIndex];
+        while(head!=NULL){
+            if(head->key == key){
+                return head->value;
+            }
+            head = head->next;
+        }
+        return 0;
     }
     V remove(string key){
-
+        int bucketIndex=getbucketIndex[string key];
+        MapNode<V>*head=buckets[bucketIndex];
+        MapNode<V>*prev=NULL;
+        while(head!=NULL){
+            if(head->key == key){
+                if(prev==NULL){
+                    buckets[bucketIndex]=head->next;
+                }
+                else{
+                    prev->next = head->next;
+                }
+                V value = head->value;
+                head ->next = NULL;
+                delete head;
+                count --;
+                return value;
+            }
+            prev = headl;
+            head = head->next;
+        }
+        return 0;
     }
 }
