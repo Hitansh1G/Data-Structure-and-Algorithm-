@@ -1,17 +1,20 @@
-#include<unordered_map>
-string uniqueChar(string s) {
+#include<bits/stdc++.h>
+string uniqueChar(string str) {
 	// Write your code here
-    unordered_map<char,int> exists; 
-  int index = 0;  
-  for(int i=0;s[i]!='\0';i++)
-  { 
-    if(exists[s[i]]==0) 
-    { 
-      s[index++] = s[i]; 
-      exists[s[i]]++; 
-    } 
-  } 
-    s[index]='\0';
-  return s; 
+   	vector<int> table(256, 0);
+    vector<char> chars;
+    for(auto i : str)
+        chars.push_back(i);
+    int endIndex = 0; 
+    for(int i = 0; i < chars.size(); i++){
+        if (table[chars[i]] == 0){
+            table[chars[i]] = -1;
+            chars[endIndex++] = chars[i];
+        }
+    }
+    string ans = "";
+    for(int i = 0; i < endIndex; i++)
+        ans += chars[i];
+    return ans;
 }
 
