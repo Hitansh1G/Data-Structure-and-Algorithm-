@@ -54,9 +54,33 @@ class ourmap{
 
         return hashcode%numbuckets;
     }
+    void rehash(){
+        MapNode<V>**temp = buckets;
+        buckets = new MapNode<V>*[2*numbuckets];
+        for(int i=0 ; i<2*numbuckets ; i++){
+            buckets[i]=NULL;
+        }
+        int oldbucketcount = numbuckets;
+        numbuckets *=2;
+        count=0;
+        for(int i=0 ; i<oldbucketcount ; i++){
+            MapNode<V>*head = temp[i];
+            while(head!=NULL){
+                string key = head->key;
+                V value = head->value;
+                insert(key,value);
+                head= head->next;
+            }
+        }
+        for(int i=0 ; i<oldbucketcount ; i++){
+            MapNode<V>head = temp[i];
+            delete head;
+        }
+        delete [] temp;
+    }
     public:
     void insert(string key , V value){
-        int bucketIndex = getbucketIndex(string, value);
+        int bucketIndex = getbucketIndex(key);
         MapNode<V>*head = buckets[bucketIndex];
         while(head != NULL){
             if(head ->key==key){
@@ -70,10 +94,14 @@ class ourmap{
         node->next = head;
         buckets[bucketIndex]=node;
         count++;
+        double loadfactor=(1.0*count)numbuckets;
+        if(loadfactor>0.7){
+            rehash();
+        }
     }
 
     void getValue(string key){
-        int bucketIndex = getbucketIndex(string key);
+        int bucketIndex = getbucketIndex(key);
         MapNode<V>*head=buckets[bucketIndex];
         while(head!=NULL){
             if(head->key == key){
@@ -84,7 +112,7 @@ class ourmap{
         return 0;
     }
     V remove(string key){
-        int bucketIndex=getbucketIndex[string key];
+        int bucketIndex=getbucketIndex(key);
         MapNode<V>*head=buckets[bucketIndex];
         MapNode<V>*prev=NULL;
         while(head!=NULL){
