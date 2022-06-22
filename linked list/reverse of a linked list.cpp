@@ -1,44 +1,23 @@
-// C++ program to print reverse of a linked list
 #include <bits/stdc++.h>
 using namespace std;
-
-/* Link list node */
-class Node
-{
+class Node{
 	public:
 	int data;
 	Node* next;
 };
 
-/* Function to reverse the linked list */
-void printReverse(Node* head)
-{
-	// Base case
+
+void printReverse(Node* head){
 	if (head == NULL)
 	return;
-
-	// print the list after head node
-	printReverse(head->next);
-
-	// After everything else is printed, print head
+	printReverse(head->next)
 	cout << head->data << " ";
 }
-
-/*UTILITY FUNCTIONS*/
-/* Push a node to linked list. Note that this function
-changes the head */
 void push(Node** head_ref, char new_data)
 {
-	/* allocate node */
 	Node* new_node = new Node();
-
-	/* put in the data */
 	new_node->data = new_data;
-
-	/* link the old list off the new node */
 	new_node->next = (*head_ref);
-
-	/* move the head to pochar to the new node */
 	(*head_ref) = new_node;
 }
 
